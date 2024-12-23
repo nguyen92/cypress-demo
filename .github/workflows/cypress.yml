@@ -16,7 +16,7 @@ on:
         description: 'Test tags to run (comma-separated)'
         type: string
         required: false
-        default: 'regression'
+        default: '@regression'
 
 jobs:
   cypress-run:
@@ -39,7 +39,7 @@ jobs:
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
-          command: npx cypress run --browser {{ inputs.browser }} --env grepTags={{ inputs.tags }}
+          command: npx cypress run --browser ${{ github.event.inputs.browser }} --env grepTags=${{ github.event.inputs.tags }}
           
       - name: Upload test results
         uses: actions/upload-artifact@v3
