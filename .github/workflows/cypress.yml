@@ -1,0 +1,54 @@
+name: Cypress Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Browser to run tests'
+        type: choice
+        required: true
+        default: 'chrome'
+        options:
+          - chrome
+          - firefox
+          - edge
+      tags:
+        description: 'Test tags to run (comma-separated)'
+        type: string
+        required: false
+        default: 'regression'
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Install dependencies
+        run: npx cypress install
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          command: npx cypress run --browser {{ inputs.browser }} --env grepTags={{ inputs.tags }}
+          
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-reports
+          path: cypress/reports
+          retention-days: 30
