@@ -9,13 +9,9 @@ on:
     inputs:
       browser:
         description: 'Browser to run tests'
-        type: choice
-        required: true
+        type: string
+        required: false
         default: 'chrome'
-        options:
-          - chrome
-          - firefox
-          - edge
       tags:
         description: 'Test tags to run (comma-separated)'
         type: string
