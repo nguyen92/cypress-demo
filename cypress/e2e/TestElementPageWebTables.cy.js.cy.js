@@ -17,5 +17,6 @@ describe("It checks the element page functionality",{ tags:'@smoke' }, function 
         elementPageWebTables.openRegistrationForm()
         elementPageWebTables.fillUpRegistrationForm(userData.firstName, userData.lastName, userData.emailAddress, userData.age, userData.salary, userData.department)
         elementPageWebTables.submitRegistrationForm()
+        cy.wait(2000)
     })
 })
