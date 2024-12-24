@@ -21,6 +21,9 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    env:
+      BROWSER: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.browser || 'chrome' }}
+      TAGS: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tags || '@regression' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
